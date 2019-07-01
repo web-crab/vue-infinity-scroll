@@ -1,31 +1,36 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view/>
-  </div>
+  <v-app>
+    <v-toolbar app>
+      <v-toolbar-title class="headline font-weight-bold mr-3">
+        TVZAVR Test
+      </v-toolbar-title>
+      <v-toolbar-items>
+        <v-btn
+          v-for="route in routes" :key="route.name"
+          :flat="$route.name !== route.name"
+          :to="route.path"
+        >{{ route.meta.linkText }}</v-btn>
+      </v-toolbar-items>
+    </v-toolbar>
+
+    <v-content>
+      <v-slide-y-reverse-transition>
+        <keep-alive>
+          <router-view :key="$route.fullPath"></router-view>
+        </keep-alive>
+      </v-slide-y-reverse-transition>
+    </v-content>
+  </v-app>
 </template>
 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-}
+<script>
 
-#nav a {
-  font-weight: bold;
-  color: #2c3e50;
+export default {
+  name: 'App',
+  computed: {
+    routes () {
+      return this.$router.options.routes
+    }
+  }
 }
-
-#nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>
